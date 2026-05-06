@@ -141,6 +141,12 @@ class Settings(BaseSettings):
     # ── AIS Stream (navires) ─────────────────────────────────
     aisstream_key: str = Field(default="", description="Clé API AISstream.io (navires temps réel).")
 
+    # ── Mapbox (globe natif) ──────────────────────────────────
+    mapbox_token: str = Field(default="", description="Token Mapbox GL JS (projection globe native).")
+
+    # ── MapTiler (carte détaillée) ────────────────────────────
+    maptiler_key: str = Field(default="", description="Clé API MapTiler (free tier, carte détaillée globe V2).")
+
     # ── Spotify ───────────────────────────────────────────────
     spotify_client_id: str = Field(default="", description="Spotify app Client ID.")
     spotify_client_secret: str = Field(default="", description="Spotify app Client Secret.")

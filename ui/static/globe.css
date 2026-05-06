@@ -1,14 +1,12 @@
-/* ── Globe canvas ──────────────────────────────────────────────── */
-#globe-canvas {
+/* ── Globe container (Mapbox GL) ────────────────────────────────── */
+#globe-container {
   position: fixed;
   inset: 0;
   z-index: 2;
   display: none;
   opacity: 0;
   transition: opacity 400ms ease;
-  cursor: grab;
 }
-#globe-canvas:active { cursor: grabbing; }
 
 /* ── Bottom nav buttons — each independently positioned ─────────── */
 #globe-toggle {

@@ -12,6 +12,7 @@ load_dotenv()
 
 import uvicorn
 from fastapi import FastAPI
+from fastapi.responses import FileResponse
 from fastapi.staticfiles import StaticFiles
 from loguru import logger
 
@@ -52,6 +53,7 @@ from tools.memory import MemoryTopicWriteTool
 from tools.notion import NotionTasksTool
 from tools.registry import ToolRegistry
 from tools.fusion import FusionTool
+from tools.map_control import MapControlTool
 from tools.printer import Printer3DTool
 from tools.spotify import SpotifyTool
 from tools.weather import WeatherTool
@@ -146,6 +148,8 @@ async def lifespan(app: FastAPI) -> AsyncGenerator[None, None]:
 
     notifications = NotificationQueue()
     proactive_queue = ProactiveQueue()
+    map_control_tool = MapControlTool(broadcast_event=proactive_queue.broadcast_event)
+    tool_registry.register(map_control_tool)
     approval_checker = ApprovalChecker(broadcast_event=proactive_queue.broadcast_event)
     orchestrator = ProjectOrchestrator(broadcast_event=proactive_queue.broadcast_event)
     worker = BackgroundWorker(llm=llm, notifications=notifications, tool_registry=tool_registry)
@@ -276,6 +280,10 @@ app.include_router(projects_router)
 app.include_router(widgets_router)
 app.include_router(spotify_router)
 app.include_router(globe_router)
+
+@app.get("/static/mapbox-style.json")
+async def mapbox_style():
+    return FileResponse("ui/static/mapbox-style.json", media_type="application/json")
 
 # UI statique montée en dernier pour ne pas masquer les routes API
 app.mount("/", StaticFiles(directory="ui/static", html=True), name="ui")

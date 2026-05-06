@@ -168,4 +168,6 @@ async def get_weather() -> dict[str, Any]:
 async def get_config() -> dict[str, Any]:
     return {
         "aisstream_key": settings.aisstream_key or "",
+        "maptiler_key":  settings.maptiler_key or "",
+        "mapbox_token":  settings.mapbox_token or "",
     }
